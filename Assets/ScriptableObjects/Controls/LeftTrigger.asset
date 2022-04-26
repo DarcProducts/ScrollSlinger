@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f98cc82989553945a1cc7055cd5e510, type: 3}
+  m_Script: {fileID: 11500000, guid: 41597c92a8b382a47b866fb7c4d1cb6a, type: 3}
   m_Name: LeftTrigger
   m_EditorClassIdentifier: 
   currentValue: 0

@@ -1,18 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class IGrabbable : MonoBehaviour
+public interface IGrabbable
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public void ResetParent();
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public void AttachObject(UnityEngine.GameObject handOjb);
+
+    public void DetatchObject(UnityEngine.Vector3 handObj);
+
+    public void SetPhysicsActive(bool usePhysics);
 }

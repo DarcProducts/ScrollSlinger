@@ -7,18 +7,11 @@ public class LandPlot : MonoBehaviour
     [SerializeField] GlobalFloat MoveSpeed;
     [SerializeField] GlobalBool StartMoving;
     [SerializeField] float maxSpeed = 8;
-    [SerializeField] GameObject[] objectsToActivate;
-    LandPlotGenerator landGenerator;
+    LandPlotGenerator _landGenerator;
     
     [SerializeField] Vector3 moveVector;
 
-    void Awake() => landGenerator = GameObject.FindWithTag("LandGenerator").GetComponent<LandPlotGenerator>();
-
-    void OnEnable()
-    {
-        foreach (var go in objectsToActivate)
-            go.SetActive(true);
-    }
+    void Awake() => _landGenerator = GameObject.FindWithTag("LandGenerator").GetComponent<LandPlotGenerator>();
 
     void FixedUpdate()
     {
@@ -32,8 +25,8 @@ public class LandPlot : MonoBehaviour
             transform.Translate(Mathf.Clamp(MoveSpeed.Value, 0, maxSpeed) * Time.fixedDeltaTime * moveVector.normalized);
         else
         {
-            if (landGenerator != null)
-                landGenerator.ResetLandPlot();
+            if (_landGenerator != null)
+                _landGenerator.ResetLandPlot();
             gameObject.SetActive(false);
         }
     }

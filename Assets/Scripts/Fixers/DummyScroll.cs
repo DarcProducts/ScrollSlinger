@@ -7,6 +7,6 @@ public class DummyScroll : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         if (!Utils.IsInLayerMask(collision.gameObject, groundLayer)) return;
-        transform.parent = collision.transform;
+        transform.SetParent(collision.transform.parent.transform, true);
     }
 }

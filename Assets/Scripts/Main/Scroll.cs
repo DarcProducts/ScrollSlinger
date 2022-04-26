@@ -1,15 +1,19 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class Scroll : MonoBehaviour
 {
-    [SerializeField] Transform startingTransform;
     [SerializeField] float maxDistanceFromMailbox;
     [SerializeField] LayerMask mailboxLayer;
     [SerializeField] LayerMask resetLayers;
-    [SerializeField] UnityEvent OnScrollReset;
     [SerializeField] GameEvent OnScrollDelivered;
-    [SerializeField] UnityEvent<GameObject> OnScrollMiss;
+    [SerializeField] GameEvent OnScrollMissed;
+    [SerializeField] UnityEvent OnScrollReset;
+    [SerializeField] ScrollBag[] scrollBags;
+    Rigidbody _rigidbody;
+
+    void Awake() => _rigidbody = GetComponent<Rigidbody>();
 
     void OnCollisionEnter(Collision collision)
     {
@@ -17,7 +21,7 @@ public class Scroll : MonoBehaviour
         {
             if (CheckIfCloseToMailBox())
                 OnScrollDelivered.Invoke(gameObject);
-            OnScrollMiss?.Invoke(gameObject);
+            OnScrollMissed.Invoke(gameObject);
             ResetScrollImmediate();
         }
     }
@@ -32,9 +36,19 @@ public class Scroll : MonoBehaviour
         }
     }
 
+    public void SetScrollToSocketTransform()
+    {
+        foreach (var s in scrollBags)
+        {
+            if (s.CanPlaceItem)
+                s.SetItemBackToStart(gameObject);
+        }
+    }
+
     void ResetScrollImmediate()
     {
-        transform.SetPositionAndRotation(startingTransform.position, startingTransform.rotation);
+        _rigidbody.useGravity = false;
+        SetScrollToSocketTransform();
         OnScrollReset?.Invoke();
     }
 
@@ -46,5 +60,20 @@ public class Scroll : MonoBehaviour
                 if (takesScroll.ScrollDelivered(false))
                     return true;
         return false;
+    }
+
+
+    public void SetPhysicsActive(bool usePhysics)
+    {
+        if (usePhysics)
+        {
+            _rigidbody.isKinematic = false;
+            _rigidbody.useGravity = true;
+        }
+        else
+        {
+            _rigidbody.useGravity = false;
+            _rigidbody.isKinematic = true;
+        }
     }
 }

@@ -7,7 +7,12 @@ public class OrderedActivate : MonoBehaviour
     [SerializeField] List<GameObject> objectsToActivate;
     [SerializeField] float activateDelay;
 
-    void OnEnable() => StartCoroutine(ActivateObject());
+    void OnEnable()
+    {
+        foreach (var o in objectsToActivate)
+            o.SetActive(false);
+        StartCoroutine(ActivateObject());
+    }
 
     IEnumerator ActivateObject()
     {
@@ -16,7 +21,6 @@ public class OrderedActivate : MonoBehaviour
         {
             yield return new WaitForSeconds(activateDelay);
             g.SetActive(true);
-            print($"Activated: {g.name}");
         }
     }
 

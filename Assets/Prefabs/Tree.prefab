@@ -134,9 +134,11 @@ MonoBehaviour:
   xPositionRemove: {x: -3, y: 3}
   turnOffOnLayers:
     serializedVersion: 2
-    m_Bits: 5120
+    m_Bits: 4608
   offset: {x: 0, y: 0, z: 0}
-  checkRadius: 3
+  checkRadius: 6
+  hasMaxTries: 1
+  maxTries: 20
 --- !u!114 &2518026140826224612
 MonoBehaviour:
   m_ObjectHideFlags: 0

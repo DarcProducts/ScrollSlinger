@@ -1,14 +1,14 @@
-using System;
 using UnityEngine;
 
 public class Mailbox : MonoBehaviour, ITakeScroll
 {
     public static int totalSubscribersSet;
+    [SerializeField] GlobalInt TotalLifetimeSubscribers;
     [SerializeField] GameObject deliveredScroll;
     [SerializeField] GameObject[] subscriberEffects;
-    [SerializeField, Header("Sets Dynamically")] bool _isSubscriber;
     [SerializeField] GameEvent PerfectDelivery;
-    bool hasBeenDelivered;
+    [SerializeField, Header("Sets Dynamically")] bool _isSubscriber;
+    bool _hasBeenDelivered;
 
     public bool IsSubscriber
     {
@@ -30,19 +30,24 @@ public class Mailbox : MonoBehaviour, ITakeScroll
     {
         if (deliveredScroll != null)
             deliveredScroll.SetActive(false);
-        this.IsSubscriber = Subscriptions.IsASubscriber();
-        if (_isSubscriber)
-            hasBeenDelivered = false;
+        if (LandPlotGenerator.TotalPlotsGenerated > GameManager.PlotsTillSubscribers)
+            this.IsSubscriber = Subscriptions.IsASubscriber();
         else
-            hasBeenDelivered = true;
+            this.IsSubscriber = false;
+        if (_isSubscriber)
+        {
+            _hasBeenDelivered = false;
+            TotalLifetimeSubscribers.Value++;
+        }
+        else
+            _hasBeenDelivered = true;
     }
-
 
     public bool ScrollDelivered(bool wasPerfect)
     {
-        if (!hasBeenDelivered)
+        if (!_hasBeenDelivered)
         {
-            hasBeenDelivered = true;
+            _hasBeenDelivered = true;
             if (wasPerfect)
             {
                 deliveredScroll.SetActive(true);

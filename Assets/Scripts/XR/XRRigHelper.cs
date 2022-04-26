@@ -4,6 +4,11 @@ public class XRRigHelper : MonoBehaviour
 {
     [SerializeField] GameObject horse;
     [SerializeField] GameObject body;
+    [SerializeField] bool fixPositionOverHorse;
 
-    void LateUpdate() => body.transform.position = horse.transform.position;
+    void LateUpdate()
+    {
+        if (fixPositionOverHorse)
+            body.transform.position = horse.transform.position;
+    }
 }

@@ -18,7 +18,7 @@ Shader "Custom/VR/VR With 2 Color"
 				CGPROGRAM
 				#pragma vertex vert
 				#pragma fragment frag
-
+				#pragma multi_compile_fog
 				#include "UnityCG.cginc"
 
 				struct appdata
@@ -30,6 +30,7 @@ Shader "Custom/VR/VR With 2 Color"
 				struct v2f
 				{
 					fixed2 uv : TEXCOORD0;
+					UNITY_FOG_COORDS(1)
 					fixed4 vertex : SV_POSITION;
 				};
 
@@ -43,13 +44,14 @@ Shader "Custom/VR/VR With 2 Color"
 					v2f o;
 					o.vertex = UnityObjectToClipPos(v.vertex);
 					o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+					UNITY_TRANSFER_FOG(o,o.vertex);
 					return o;
 				}
 
 				fixed4 frag(v2f i) : SV_Target
 				{
 					fixed4 col = tex2D(_MainTex, i.uv);
-				
+					UNITY_APPLY_FOG(i.fogCoord, col);
 					if (col.x + col.y + col.z < .1f)
 						return col * _ColorAlt;
 					return col * _Color;

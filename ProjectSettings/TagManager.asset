@@ -16,19 +16,19 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ground
   - Water
   - UI
   - FireworkBag
   - ScrollBag
   - Scroll
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - House
+  - Tree
+  - LeftHand
+  - RightHand
+  - Grabbable
+  - MailBox
+  - Socket
   - 
   - 
   - 
